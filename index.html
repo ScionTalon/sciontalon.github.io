@@ -208,6 +208,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
 .planner-meal-name{font-size:14px;font-weight:600}
 .planner-meal-cal{font-size:12px;color:var(--text-2);margin-top:2px}
 
+/* Meal form */
+.form-lbl{font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:6px}
+.form-input{width:100%;padding:12px 14px;font-size:15px;border:1.5px solid var(--gray-border);border-radius:var(--radius-sm);background:var(--card-bg);color:var(--text)}
+.form-input:focus{outline:none;border-color:var(--green)}
+.manage-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--gray-border)}
+.manage-row:last-child{border-bottom:none}
+.manage-emoji{font-size:20px;flex-shrink:0}
+.manage-info{flex:1;min-width:0}
+.manage-name{font-size:13px;font-weight:600;line-height:1.35}
+.manage-meta{font-size:11px;color:var(--text-2);margin-top:2px}
+.manage-row.hidden-meal .manage-name,.manage-row.hidden-meal .manage-meta{opacity:.4;text-decoration:line-through}
+.manage-btn{width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;font-size:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.mb-edit{background:var(--gray-bg);color:var(--text-2)}
+.mb-del{background:var(--red-light);color:var(--red)}
+.mb-eye{background:var(--gray-bg);color:var(--text-2)}
+.custom-tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;background:var(--green-light);color:var(--green-dark);margin-left:6px;vertical-align:middle}
+
 /* Workout log */
 .workout-log-entry{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--gray-border);gap:10px}
 .workout-log-entry:last-child{border-bottom:none}
@@ -242,6 +259,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
     <div id="tab-meals" class="tab-panel">
       <div class="page-hdr"><h1>Meal Library</h1><p>Tap to add to today · 🔍 to find recipes</p></div>
       <div class="panel-pad">
+        <button class="btn-full btn-outline" onclick="openManageMeals()" style="margin-bottom:14px">⚙️ Manage meals</button>
         <div class="cat-filter" id="cat-filter"></div>
         <div id="meal-library"></div>
       </div>
@@ -351,6 +369,62 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
       Progress
     </button>
   </nav>
+</div>
+
+<!-- Manage meals modal -->
+<div class="modal-overlay hidden" id="manage-meals-modal" onclick="closeManageMeals(event)">
+  <div class="modal" style="position:relative;max-height:88vh">
+    <button class="modal-close" onclick="closeManageMealsBtn()">✕</button>
+    <div class="modal-title" id="manage-title">Manage meals</div>
+    <div class="modal-sub" id="manage-sub">Add your own meals or hide ones you don't use</div>
+
+    <div id="manage-list-view">
+      <button class="btn-full btn-primary" onclick="showMealForm(null)" style="margin-bottom:14px">+ Add a new meal</button>
+      <div id="manage-meal-list"></div>
+    </div>
+
+    <div id="manage-form-view" style="display:none">
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+        <div>
+          <div class="form-lbl">Meal name</div>
+          <input type="text" id="mf-name" placeholder="e.g. Grilled chicken Caesar" class="form-input">
+        </div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:2">
+            <div class="form-lbl">Category</div>
+            <select id="mf-cat" class="form-input">
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Snack">Snack</option>
+              <option value="Dinner" selected>Dinner</option>
+            </select>
+          </div>
+          <div style="flex:1">
+            <div class="form-lbl">Emoji</div>
+            <input type="text" id="mf-emoji" placeholder="🍽️" maxlength="4" class="form-input" style="text-align:center;font-size:20px">
+          </div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:1">
+            <div class="form-lbl">Calories</div>
+            <input type="number" id="mf-cal" placeholder="e.g. 520" min="1" max="3000" class="form-input">
+          </div>
+          <div style="flex:1">
+            <div class="form-lbl">Protein (g)</div>
+            <input type="number" id="mf-pro" placeholder="e.g. 45" min="0" max="300" class="form-input">
+          </div>
+        </div>
+        <div>
+          <div class="form-lbl">Grocery items (optional)</div>
+          <div style="font-size:12px;color:var(--text-2);margin-bottom:6px;line-height:1.5">One per line. Prefix with a category and colon to sort your list, e.g. <em>Proteins: Chicken breast</em></div>
+          <textarea id="mf-grocery" rows="5" placeholder="Proteins: Chicken breast&#10;Produce: Romaine lettuce&#10;Pantry: Croutons" class="form-input" style="resize:vertical;font-family:inherit"></textarea>
+        </div>
+      </div>
+      <button class="btn-full btn-primary" onclick="saveMealForm()" style="margin-bottom:8px">Save meal</button>
+      <button class="btn-full btn-outline" onclick="showManageList()">Cancel</button>
+      <div id="mf-status" style="font-size:13px;margin-top:10px;text-align:center;min-height:18px;color:var(--red)"></div>
+    </div>
+  </div>
 </div>
 
 <!-- Workout log modal -->
@@ -501,154 +575,194 @@ const dayPlans=[
   {day:"Sunday",badge:"rest",workouts:[{icon:"😴",title:"Full rest",desc:"Reflect. You're at or near 200 lbs. This is the habit now."}]}]
 ];
 
-const meals={
-  "Breakfast":[
-    {name:"Oats + protein powder + banana",emoji:"🥣",cal:480,pro:35},
-    {name:"Scrambled eggs + toast + avocado",emoji:"🍳",cal:460,pro:28},
-    {name:"Greek yogurt parfait + granola + berries",emoji:"🫙",cal:380,pro:32},
-    {name:"Cottage cheese + peaches + honey",emoji:"🍑",cal:310,pro:28},
-    {name:"Turkey & egg scramble wrap",emoji:"🌯",cal:490,pro:38},
-    {name:"Overnight oats + chia + almond butter",emoji:"🌙",cal:420,pro:25},
-    {name:"Protein pancakes + maple syrup",emoji:"🥞",cal:440,pro:32},
-    {name:"Veggie omelette + whole grain toast",emoji:"🥚",cal:400,pro:30},
-    {name:"Smoothie bowl (protein + fruit + oats)",emoji:"🍇",cal:450,pro:30},
-    {name:"Breakfast burrito (eggs + turkey + peppers)",emoji:"🌮",cal:510,pro:36}
-  ],
-  "Lunch":[
-    {name:"Grilled chicken + brown rice + salad",emoji:"🍗",cal:580,pro:50},
-    {name:"Tuna salad sandwich (whole grain)",emoji:"🥪",cal:490,pro:42},
-    {name:"Ground turkey rice bowl + roasted veggies",emoji:"🥩",cal:560,pro:48},
-    {name:"Black bean & rice burrito bowl",emoji:"🫘",cal:520,pro:24},
-    {name:"Baked salmon + sweet potato + green beans",emoji:"🐟",cal:540,pro:44},
-    {name:"Chicken Caesar wrap (light dressing)",emoji:"🥗",cal:510,pro:42},
-    {name:"Turkey meatball sub (whole grain roll)",emoji:"🫓",cal:550,pro:44},
-    {name:"Shrimp stir-fry + brown rice",emoji:"🍤",cal:490,pro:40},
-    {name:"Lentil & veggie soup + bread",emoji:"🍲",cal:480,pro:26},
-    {name:"Chicken & veggie grain bowl (quinoa)",emoji:"🫙",cal:560,pro:46},
-    {name:"BLT turkey wrap + apple",emoji:"🥬",cal:500,pro:38},
-    {name:"Canned tuna + crackers + cucumber",emoji:"🐟",cal:380,pro:38}
-  ],
-  "Snack":[
-    {name:"Cottage cheese + apple slices",emoji:"🍎",cal:280,pro:25},
-    {name:"Greek yogurt + mixed berries",emoji:"🍓",cal:240,pro:22},
-    {name:"Hard-boiled eggs (2) + clementine",emoji:"🥚",cal:220,pro:18},
-    {name:"Peanut butter + rice cakes (2)",emoji:"🍞",cal:290,pro:10},
-    {name:"Protein shake + banana",emoji:"🍌",cal:300,pro:30},
-    {name:"Canned tuna + whole grain crackers",emoji:"🐟",cal:260,pro:30},
-    {name:"String cheese (2) + grapes",emoji:"🧀",cal:240,pro:16},
-    {name:"Almonds (1 oz) + dried apricots",emoji:"🌰",cal:270,pro:8},
-    {name:"Hummus + celery + bell pepper strips",emoji:"🫛",cal:200,pro:8},
-    {name:"Edamame (1 cup shelled)",emoji:"🟢",cal:190,pro:18},
-    {name:"Chocolate protein shake",emoji:"🍫",cal:280,pro:28},
-    {name:"Turkey + cheese roll-ups",emoji:"🥩",cal:240,pro:26}
-  ],
-  "Dinner":[
-    {name:"Ground turkey stir-fry + broccoli + rice",emoji:"🥦",cal:620,pro:55},
-    {name:"Baked chicken thighs + roasted broccoli",emoji:"🍗",cal:540,pro:52},
-    {name:"Ground beef tacos (corn tortillas, salsa)",emoji:"🌮",cal:650,pro:48},
-    {name:"Baked salmon + asparagus + quinoa",emoji:"🐟",cal:560,pro:48},
-    {name:"Lentil soup + crusty bread",emoji:"🍲",cal:520,pro:28},
-    {name:"Shrimp & veggie bowl (cauliflower rice)",emoji:"🍤",cal:420,pro:42},
-    {name:"Chicken & vegetable sheet pan bake",emoji:"🫑",cal:510,pro:48},
-    {name:"Turkey chili + brown rice",emoji:"🌶️",cal:580,pro:52},
-    {name:"Pork tenderloin + sweet potato + green beans",emoji:"🥩",cal:550,pro:46},
-    {name:"Shrimp tacos (corn tortillas, slaw, avocado)",emoji:"🌮",cal:540,pro:36},
-    {name:"Baked cod + brown rice + roasted zucchini",emoji:"🐟",cal:490,pro:46},
-    {name:"Chicken tikka masala (light) + basmati rice",emoji:"🍛",cal:600,pro:48},
-    {name:"Beef & broccoli stir-fry + brown rice",emoji:"🥦",cal:620,pro:50},
-    {name:"Black bean & sweet potato enchiladas",emoji:"🫘",cal:580,pro:24},
-    {name:"Chicken burrito bowl (rice, beans, salsa, Greek yogurt)",emoji:"🌯",cal:620,pro:54},
-    {name:"Ground turkey burrito (whole wheat tortilla, cheese, salsa)",emoji:"🌯",cal:660,pro:52},
-    {name:"Steak tacos (corn tortillas, onion, cilantro, lime)",emoji:"🌮",cal:580,pro:46},
-    {name:"Chicken tacos (corn tortillas, slaw, hot sauce)",emoji:"🌮",cal:520,pro:46},
-    {name:"Air-fried hot wings (12) + celery + light ranch",emoji:"🍗",cal:580,pro:58},
-    {name:"Baked buffalo chicken + brown rice + broccoli",emoji:"🌶️",cal:560,pro:56},
-    {name:"Turkey taco bowl (cauliflower rice, cheese, pico)",emoji:"🌮",cal:510,pro:50},
-    {name:"Cheesy ground beef & rice skillet",emoji:"🧀",cal:640,pro:52}
-  ],
-  "Snack":[
-    {name:"Cottage cheese + apple slices",emoji:"🍎",cal:280,pro:25},
-    {name:"Greek yogurt + mixed berries",emoji:"🍓",cal:240,pro:22},
-    {name:"Hard-boiled eggs (2) + clementine",emoji:"🥚",cal:220,pro:18},
-    {name:"Peanut butter + rice cakes (2)",emoji:"🍞",cal:290,pro:10},
-    {name:"Protein shake + banana",emoji:"🍌",cal:300,pro:30},
-    {name:"Canned tuna + whole grain crackers",emoji:"🐟",cal:260,pro:30},
-    {name:"String cheese (2) + grapes",emoji:"🧀",cal:240,pro:16},
-    {name:"Almonds (1 oz) + dried apricots",emoji:"🌰",cal:270,pro:8},
-    {name:"Hummus + celery + bell pepper strips",emoji:"🫛",cal:200,pro:8},
-    {name:"Edamame (1 cup shelled)",emoji:"🟢",cal:190,pro:18},
-    {name:"Chocolate protein shake",emoji:"🍫",cal:280,pro:28},
-    {name:"Turkey + cheese roll-ups",emoji:"🥩",cal:240,pro:26},
-    {name:"Air-fried buffalo cauliflower bites",emoji:"🌶️",cal:180,pro:6},
-    {name:"Mini chicken tacos (2 corn tortillas)",emoji:"🌮",cal:300,pro:26},
-    {name:"Cheese quesadilla (small, whole wheat)",emoji:"🧀",cal:320,pro:18},
-    {name:"Hot wing drumsticks (4 baked) + celery",emoji:"🍗",cal:310,pro:32}
-  ]
-};
+// ---- Meal database (loaded from meals.json) ----
+let baseMeals={"Breakfast":[],"Lunch":[],"Snack":[],"Dinner":[]};
+let meals={"Breakfast":[],"Lunch":[],"Snack":[],"Dinner":[]};
+let groceryMap={};
+let mealsLoaded=false;
+let customMeals=[];
+let hiddenMeals=[];
+try{customMeals=JSON.parse(localStorage.getItem('custom_meals')||'[]');}catch(e){}
+try{hiddenMeals=JSON.parse(localStorage.getItem('hidden_meals')||'[]');}catch(e){}
 
-// Grocery ingredient map - what each meal needs
-const groceryMap={
-  "Oats + protein powder + banana":{"Pantry":["Rolled oats","Protein powder"],"Produce":["Bananas"]},
-  "Scrambled eggs + toast + avocado":{"Proteins":["Eggs"],"Pantry":["Whole grain bread"],"Produce":["Avocados"]},
-  "Greek yogurt parfait + granola + berries":{"Dairy":["Greek yogurt","Granola"],"Produce":["Mixed berries"]},
-  "Cottage cheese + peaches + honey":{"Dairy":["Cottage cheese"],"Produce":["Peaches"],"Pantry":["Honey"]},
-  "Turkey & egg scramble wrap":{"Proteins":["Ground turkey","Eggs"],"Pantry":["Whole grain tortillas"]},
-  "Overnight oats + chia + almond butter":{"Pantry":["Rolled oats","Chia seeds","Almond butter"]},
-  "Protein pancakes + maple syrup":{"Pantry":["Protein pancake mix","Maple syrup"]},
-  "Veggie omelette + whole grain toast":{"Proteins":["Eggs"],"Produce":["Bell peppers","Spinach","Onion"],"Pantry":["Whole grain bread"]},
-  "Smoothie bowl (protein + fruit + oats)":{"Pantry":["Protein powder","Rolled oats"],"Produce":["Frozen fruit mix","Banana"]},
-  "Breakfast burrito (eggs + turkey + peppers)":{"Proteins":["Eggs","Ground turkey"],"Produce":["Bell peppers"],"Pantry":["Whole grain tortillas"]},
-  "Grilled chicken + brown rice + salad":{"Proteins":["Chicken breast"],"Pantry":["Brown rice"],"Produce":["Mixed salad greens"]},
-  "Tuna salad sandwich (whole grain)":{"Proteins":["Canned tuna"],"Pantry":["Whole grain bread","Mayonnaise (light)"],"Produce":["Celery","Lettuce"]},
-  "Ground turkey rice bowl + roasted veggies":{"Proteins":["Ground turkey"],"Pantry":["Brown rice"],"Produce":["Zucchini","Bell peppers","Broccoli"]},
-  "Black bean & rice burrito bowl":{"Pantry":["Black beans (canned)","Brown rice","Salsa"],"Produce":["Lime","Cilantro"],"Dairy":["Greek yogurt (sour cream sub)"]},
-  "Baked salmon + sweet potato + green beans":{"Proteins":["Salmon fillets"],"Produce":["Sweet potatoes","Green beans"]},
-  "Chicken Caesar wrap (light dressing)":{"Proteins":["Chicken breast"],"Pantry":["Whole grain tortillas","Caesar dressing (light)"],"Produce":["Romaine lettuce"]},
-  "Turkey meatball sub (whole grain roll)":{"Proteins":["Ground turkey"],"Pantry":["Whole grain hoagie rolls","Marinara sauce"]},
-  "Shrimp stir-fry + brown rice":{"Proteins":["Shrimp"],"Pantry":["Brown rice","Soy sauce","Sesame oil"],"Produce":["Broccoli","Snap peas","Carrots"]},
-  "Lentil & veggie soup + bread":{"Pantry":["Lentils","Vegetable broth","Whole grain bread"],"Produce":["Carrots","Celery","Onion","Garlic"]},
-  "Chicken & veggie grain bowl (quinoa)":{"Proteins":["Chicken breast"],"Pantry":["Quinoa"],"Produce":["Cucumber","Cherry tomatoes","Spinach"]},
-  "BLT turkey wrap + apple":{"Proteins":["Deli turkey slices"],"Pantry":["Whole grain tortillas"],"Produce":["Lettuce","Tomato","Apples"],"Dairy":["Bacon (turkey)"]},
-  "Canned tuna + crackers + cucumber":{"Proteins":["Canned tuna"],"Pantry":["Whole grain crackers"],"Produce":["Cucumber"]},
-  "Cottage cheese + apple slices":{"Dairy":["Cottage cheese"],"Produce":["Apples"]},
-  "Greek yogurt + mixed berries":{"Dairy":["Greek yogurt"],"Produce":["Mixed berries"]},
-  "Hard-boiled eggs (2) + clementine":{"Proteins":["Eggs"],"Produce":["Clementines"]},
-  "Peanut butter + rice cakes (2)":{"Pantry":["Peanut butter","Rice cakes"]},
-  "Protein shake + banana":{"Pantry":["Protein powder"],"Produce":["Bananas"]},
-  "Canned tuna + whole grain crackers":{"Proteins":["Canned tuna"],"Pantry":["Whole grain crackers"]},
-  "String cheese (2) + grapes":{"Dairy":["String cheese"],"Produce":["Grapes"]},
-  "Almonds (1 oz) + dried apricots":{"Pantry":["Almonds","Dried apricots"]},
-  "Hummus + celery + bell pepper strips":{"Pantry":["Hummus"],"Produce":["Celery","Bell peppers"]},
-  "Edamame (1 cup shelled)":{"Proteins":["Shelled edamame (frozen)"]},
-  "Chocolate protein shake":{"Pantry":["Chocolate protein powder","Milk or milk alternative"]},
-  "Turkey + cheese roll-ups":{"Proteins":["Deli turkey slices"],"Dairy":["Sliced cheese"]},
-  "Ground turkey stir-fry + broccoli + rice":{"Proteins":["Ground turkey"],"Pantry":["Brown rice","Soy sauce"],"Produce":["Broccoli","Bell peppers"]},
-  "Baked chicken thighs + roasted broccoli":{"Proteins":["Chicken thighs"],"Produce":["Broccoli"]},
-  "Ground beef tacos (corn tortillas, salsa)":{"Proteins":["Ground beef (lean)"],"Pantry":["Corn tortillas","Salsa","Taco seasoning"],"Produce":["Lettuce","Tomato","Lime"]},
-  "Baked salmon + asparagus + quinoa":{"Proteins":["Salmon fillets"],"Pantry":["Quinoa"],"Produce":["Asparagus"]},
-  "Lentil soup + crusty bread":{"Pantry":["Lentils","Vegetable broth","Whole grain bread"],"Produce":["Carrots","Celery","Onion","Garlic"]},
-  "Shrimp & veggie bowl (cauliflower rice)":{"Proteins":["Shrimp"],"Produce":["Cauliflower rice (frozen)","Broccoli","Snap peas"],"Pantry":["Soy sauce"]},
-  "Chicken & vegetable sheet pan bake":{"Proteins":["Chicken breast"],"Produce":["Zucchini","Bell peppers","Onion","Cherry tomatoes"]},
-  "Turkey chili + brown rice":{"Proteins":["Ground turkey"],"Pantry":["Kidney beans (canned)","Diced tomatoes (canned)","Brown rice","Chili seasoning"],"Produce":["Onion","Garlic","Bell peppers"]},
-  "Pork tenderloin + sweet potato + green beans":{"Proteins":["Pork tenderloin"],"Produce":["Sweet potatoes","Green beans"]},
-  "Shrimp tacos (corn tortillas, slaw, avocado)":{"Proteins":["Shrimp"],"Pantry":["Corn tortillas"],"Produce":["Coleslaw mix","Avocado","Lime"]},
-  "Baked cod + brown rice + roasted zucchini":{"Proteins":["Cod fillets"],"Pantry":["Brown rice"],"Produce":["Zucchini"]},
-  "Chicken tikka masala (light) + basmati rice":{"Proteins":["Chicken breast"],"Pantry":["Tikka masala sauce (jar)","Basmati rice"]},
-  "Beef & broccoli stir-fry + brown rice":{"Proteins":["Lean beef strips"],"Pantry":["Brown rice","Soy sauce","Oyster sauce"],"Produce":["Broccoli","Garlic","Ginger"]},
-  "Black bean & sweet potato enchiladas":{"Pantry":["Black beans (canned)","Corn tortillas","Enchilada sauce"],"Produce":["Sweet potatoes","Onion"],"Dairy":["Shredded cheese (low-fat)"]},
-  "Chicken burrito bowl (rice, beans, salsa, Greek yogurt)":{"Proteins":["Chicken breast"],"Pantry":["Brown rice","Black beans (canned)","Salsa"],"Dairy":["Greek yogurt"],"Produce":["Lime","Cilantro"]},
-  "Ground turkey burrito (whole wheat tortilla, cheese, salsa)":{"Proteins":["Ground turkey"],"Pantry":["Whole wheat tortillas","Salsa"],"Dairy":["Shredded cheese (low-fat)"]},
-  "Steak tacos (corn tortillas, onion, cilantro, lime)":{"Proteins":["Lean steak (flank or sirloin)"],"Pantry":["Corn tortillas","Taco seasoning"],"Produce":["White onion","Cilantro","Limes"]},
-  "Chicken tacos (corn tortillas, slaw, hot sauce)":{"Proteins":["Chicken breast"],"Pantry":["Corn tortillas","Hot sauce"],"Produce":["Coleslaw mix","Lime"]},
-  "Air-fried hot wings (12) + celery + light ranch":{"Proteins":["Chicken wings"],"Pantry":["Hot sauce","Butter (small amount)","Light ranch dressing"],"Produce":["Celery"]},
-  "Baked buffalo chicken + brown rice + broccoli":{"Proteins":["Chicken breast"],"Pantry":["Hot sauce","Brown rice"],"Produce":["Broccoli"]},
-  "Turkey taco bowl (cauliflower rice, cheese, pico)":{"Proteins":["Ground turkey"],"Pantry":["Taco seasoning"],"Produce":["Cauliflower rice (frozen)","Tomato","Onion","Jalapeño","Cilantro","Lime"],"Dairy":["Shredded cheese (low-fat)"]},
-  "Cheesy ground beef & rice skillet":{"Proteins":["Ground beef (lean)"],"Pantry":["Brown rice","Beef broth","Diced tomatoes (canned)"],"Dairy":["Shredded cheese (low-fat)"],"Produce":["Onion","Garlic","Bell pepper"]},
-  "Air-fried buffalo cauliflower bites":{"Produce":["Cauliflower"],"Pantry":["Hot sauce","Olive oil","Garlic powder"]},
-  "Mini chicken tacos (2 corn tortillas)":{"Proteins":["Chicken breast"],"Pantry":["Corn tortillas","Taco seasoning","Salsa"]},
-  "Cheese quesadilla (small, whole wheat)":{"Pantry":["Whole wheat tortillas"],"Dairy":["Shredded cheese (low-fat)"]},
-  "Hot wing drumsticks (4 baked) + celery":{"Proteins":["Chicken drumsticks"],"Pantry":["Hot sauce","Garlic powder"],"Produce":["Celery"]}
-};
+function saveCustomMeals(){try{localStorage.setItem('custom_meals',JSON.stringify(customMeals));}catch(e){}}
+function saveHiddenMeals(){try{localStorage.setItem('hidden_meals',JSON.stringify(hiddenMeals));}catch(e){}}
+
+// Rebuild the working meal list from base JSON + custom, minus hidden
+function rebuildMeals(){
+  MEAL_SLOTS.forEach(cat=>{meals[cat]=(baseMeals[cat]||[]).slice();});
+  customMeals.forEach(m=>{
+    const cat=m.category||'Dinner';
+    if(!meals[cat])meals[cat]=[];
+    if(!meals[cat].some(x=>x.name===m.name))meals[cat].push({...m,custom:true});
+  });
+  MEAL_SLOTS.forEach(cat=>{
+    meals[cat]=meals[cat].filter(m=>!hiddenMeals.includes(m.name));
+  });
+  groceryMap={};
+  MEAL_SLOTS.forEach(cat=>{
+    meals[cat].forEach(m=>{if(m.grocery)groceryMap[m.name]=m.grocery;});
+  });
+}
+
+// Back-compat shims used by the import/restore path
+function mergeCustomMeals(){rebuildMeals();}
+function indexMeals(){rebuildMeals();}
+
+function refreshMealViews(){
+  rebuildMeals();
+  renderCatFilter();
+  renderMealLibrary();
+  renderToday();
+  renderPlanner();
+}
+
+async function loadMeals(){
+  try{
+    const resp=await fetch('./meals.json?v='+Date.now());
+    if(!resp.ok)throw new Error('HTTP '+resp.status);
+    const data=await resp.json();
+    MEAL_SLOTS.forEach(cat=>{
+      baseMeals[cat]=Array.isArray(data[cat])?data[cat]:[];
+    });
+    mealsLoaded=true;
+    refreshMealViews();
+  }catch(err){
+    mealsLoaded=customMeals.length>0;
+    refreshMealViews();
+    if(!mealsLoaded){
+      const el=document.getElementById('meal-library');
+      if(el)el.innerHTML='<div class="empty">Could not load meals.json.<br><br>If you opened this file directly from Files, open it from your GitHub Pages URL instead — browsers block local file loading.</div>';
+    }
+  }
+}
+
+// ---- Manage meals ----
+let editingMealName=null;
+
+function openManageMeals(){
+  showManageList();
+  document.getElementById('manage-meals-modal').classList.remove('hidden');
+}
+function closeManageMeals(e){if(e.target===document.getElementById('manage-meals-modal'))closeManageMealsBtn();}
+function closeManageMealsBtn(){document.getElementById('manage-meals-modal').classList.add('hidden');}
+
+function showManageList(){
+  document.getElementById('manage-list-view').style.display='block';
+  document.getElementById('manage-form-view').style.display='none';
+  document.getElementById('manage-title').textContent='Manage meals';
+  document.getElementById('manage-sub').textContent='Add your own meals or hide ones you don\u2019t use';
+  renderManageList();
+}
+
+function renderManageList(){
+  const c=document.getElementById('manage-meal-list');
+  let html='';
+  MEAL_SLOTS.forEach(cat=>{
+    const custom=customMeals.filter(m=>(m.category||'Dinner')===cat);
+    const base=(baseMeals[cat]||[]);
+    const all=[...custom.map(m=>({...m,custom:true})),...base];
+    if(!all.length)return;
+    html+=`<div class="sec-label">${cat}</div>`;
+    all.forEach(m=>{
+      const isHidden=hiddenMeals.includes(m.name);
+      const safe=m.name.replace(/'/g,"\\'");
+      html+=`<div class="manage-row${isHidden?' hidden-meal':''}">
+        <span class="manage-emoji">${m.emoji||'🍽️'}</span>
+        <div class="manage-info">
+          <div class="manage-name">${m.name}${m.custom?'<span class="custom-tag">MINE</span>':''}</div>
+          <div class="manage-meta">${m.cal} cal · ${m.pro}g protein</div>
+        </div>
+        ${m.custom
+          ? `<button class="manage-btn mb-edit" onclick="showMealForm('${safe}')" aria-label="Edit">✎</button>
+             <button class="manage-btn mb-del" onclick="deleteCustomMeal('${safe}')" aria-label="Delete">✕</button>`
+          : `<button class="manage-btn mb-eye" onclick="toggleHideMeal('${safe}')" aria-label="${isHidden?'Unhide':'Hide'}">${isHidden?'+':'−'}</button>`
+        }
+      </div>`;
+    });
+  });
+  if(!html)html='<div class="empty">No meals loaded yet.</div>';
+  c.innerHTML=html;
+}
+
+function toggleHideMeal(name){
+  const i=hiddenMeals.indexOf(name);
+  if(i===-1)hiddenMeals.push(name);else hiddenMeals.splice(i,1);
+  saveHiddenMeals();
+  refreshMealViews();
+  renderManageList();
+}
+
+function deleteCustomMeal(name){
+  customMeals=customMeals.filter(m=>m.name!==name);
+  saveCustomMeals();
+  refreshMealViews();
+  renderManageList();
+}
+
+function showMealForm(name){
+  editingMealName=name||null;
+  document.getElementById('manage-list-view').style.display='none';
+  document.getElementById('manage-form-view').style.display='block';
+  document.getElementById('mf-status').textContent='';
+  const m=name?customMeals.find(x=>x.name===name):null;
+  document.getElementById('manage-title').textContent=m?'Edit meal':'Add a meal';
+  document.getElementById('manage-sub').textContent=m?'Update the details below':'Saved to this device and included in your backup';
+  document.getElementById('mf-name').value=m?m.name:'';
+  document.getElementById('mf-cat').value=m?(m.category||'Dinner'):'Dinner';
+  document.getElementById('mf-emoji').value=m?(m.emoji||''):'';
+  document.getElementById('mf-cal').value=m?m.cal:'';
+  document.getElementById('mf-pro').value=m?m.pro:'';
+  let groceryText='';
+  if(m&&m.grocery){
+    Object.entries(m.grocery).forEach(([cat,items])=>{
+      items.forEach(it=>{groceryText+=cat+': '+it+'\n';});
+    });
+  }
+  document.getElementById('mf-grocery').value=groceryText.trim();
+}
+
+function parseGroceryText(text){
+  const out={};
+  text.split('\n').map(l=>l.trim()).filter(Boolean).forEach(line=>{
+    let cat='Pantry',item=line;
+    const idx=line.indexOf(':');
+    if(idx>0){cat=line.slice(0,idx).trim();item=line.slice(idx+1).trim();}
+    if(!item)return;
+    if(!out[cat])out[cat]=[];
+    out[cat].push(item);
+  });
+  return Object.keys(out).length?out:null;
+}
+
+function saveMealForm(){
+  const status=document.getElementById('mf-status');
+  const name=document.getElementById('mf-name').value.trim();
+  const cat=document.getElementById('mf-cat').value;
+  const emoji=document.getElementById('mf-emoji').value.trim()||'🍽️';
+  const cal=parseInt(document.getElementById('mf-cal').value);
+  const pro=parseInt(document.getElementById('mf-pro').value);
+  if(!name){status.textContent='Please enter a meal name.';return;}
+  if(!cal||cal<1){status.textContent='Please enter calories.';return;}
+  if(isNaN(pro)||pro<0){status.textContent='Please enter protein in grams.';return;}
+  const dupe=customMeals.some(m=>m.name===name&&m.name!==editingMealName);
+  const baseDupe=(baseMeals[cat]||[]).some(m=>m.name===name)&&name!==editingMealName;
+  if(dupe||baseDupe){status.textContent='A meal with that name already exists.';return;}
+  const grocery=parseGroceryText(document.getElementById('mf-grocery').value);
+  const entry={name,category:cat,emoji,cal,pro};
+  if(grocery)entry.grocery=grocery;
+  if(editingMealName){
+    const i=customMeals.findIndex(m=>m.name===editingMealName);
+    if(i>-1)customMeals[i]=entry;else customMeals.push(entry);
+  }else{
+    customMeals.push(entry);
+  }
+  saveCustomMeals();
+  mealsLoaded=true;
+  refreshMealViews();
+  showManageList();
+}
+
 
 const roadmap=[
   {months:"1–2",name:"Foundation",items:["Build daily exercise habit","Start calorie tracking","Hit 2,000–2,100 cal/day","~10 lbs lost target"]},
@@ -728,9 +842,12 @@ function renderCatFilter(){
 function setCat(c){activeCat=c;renderCatFilter();renderMealLibrary();}
 
 function renderMealLibrary(){
-  const c=document.getElementById('meal-library');c.innerHTML='';
+  const c=document.getElementById('meal-library');
+  if(!mealsLoaded){c.innerHTML='<div class="empty">Loading meals\u2026</div>';return;}
+  c.innerHTML='';
   const cats=activeCat==='All'?Object.keys(meals):[activeCat];
   cats.forEach(cat=>{
+    if(!meals[cat]||!meals[cat].length)return;
     let html=`<div class="sec-label">${cat}</div><div class="meal-grid">`;
     meals[cat].forEach((m,i)=>{
       const sel=todayMeals[cat]&&todayMeals[cat].name===m.name?' selected':'';
@@ -910,7 +1027,7 @@ function openPlannerModal(day,slot){
   document.getElementById('planner-modal-sub').textContent='Choose a meal to add';
   const list=document.getElementById('planner-meal-list');
   let html='';
-  meals[slot].forEach((m,i)=>{
+  (meals[slot]||[]).forEach((m,i)=>{
     html+=`<div class="planner-meal-option" onclick="selectPlannerMeal('${slot}',${i})">
       <span class="planner-meal-emoji">${m.emoji}</span>
       <div class="planner-meal-info">
@@ -1188,6 +1305,8 @@ function exportData(){
     weightLog,
     weekPlan,
     groceryChecked,
+    customMeals,
+    hiddenMeals,
     water:{},
     workouts:{}
   };
@@ -1225,6 +1344,10 @@ function importData(event){
       weightLog=data.weightLog||[];
       weekPlan=data.weekPlan||{};
       groceryChecked=data.groceryChecked||{};
+      customMeals=data.customMeals||[];
+      hiddenMeals=data.hiddenMeals||[];
+      saveCustomMeals();saveHiddenMeals();
+      refreshMealViews();
       try{localStorage.setItem('wlog',JSON.stringify(weightLog));}catch(err){}
       try{localStorage.setItem('weekplan',JSON.stringify(weekPlan));}catch(err){}
       try{localStorage.setItem('groc_checked',JSON.stringify(groceryChecked));}catch(err){}
@@ -1252,9 +1375,9 @@ function importData(event){
 // Init
 renderCatFilter();
 renderDays();
-renderMealLibrary();
 renderToday();
 renderProgress();
+loadMeals();
 </script>
 </body>
 </html>
