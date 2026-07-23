@@ -257,7 +257,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
 
     <!-- MEALS -->
     <div id="tab-meals" class="tab-panel">
-      <div class="page-hdr"><h1>Meal Library</h1><p>Tap to add to today · 🔍 to find recipes</p></div>
+      <div class="page-hdr"><h1>Meal Library</h1><p>Dinner meals set your main meal · others add as protein add-ons</p></div>
       <div class="panel-pad">
         <button class="btn-full btn-outline" onclick="openManageMeals()" style="margin-bottom:14px">⚙️ Manage meals</button>
         <div class="cat-filter" id="cat-filter"></div>
@@ -289,9 +289,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
             <button class="w-btn w-btn-blue" onclick="addWater(parseInt(document.getElementById('water-oz-select').value))">+ Add</button>
           </div>
         </div>
-        <div class="sec-label">Today's meals</div>
-        <div class="card" id="today-meals"></div>
-        <button class="add-meal-btn" onclick="showTab('meals')">+ Add meal from library</button>
+        <div class="sec-label">Dinner</div>
+        <div class="card" id="today-dinner"></div>
+        <div class="sec-label">Protein add-ons</div>
+        <div class="card" id="today-addons"></div>
+        <button class="add-meal-btn" onclick="showTab('meals')">+ Add from meal library</button>
         <button class="add-meal-btn" onclick="openCustomMealModal()" style="margin-top:8px">🍔 Log restaurant or custom meal</button>
         <div class="sec-label">Extra activity</div>
         <div class="card" id="extra-burn-card">
@@ -393,10 +395,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
           <div style="flex:2">
             <div class="form-lbl">Category</div>
             <select id="mf-cat" class="form-input">
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Snack">Snack</option>
-              <option value="Dinner" selected>Dinner</option>
+              <option value="Dinner" selected>Dinner (main meal)</option>
+              <option value="Snack">Snack (protein add-on)</option>
             </select>
           </div>
           <div style="flex:1">
@@ -481,10 +481,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
       <input type="text" id="custom-restaurant" placeholder="Restaurant (e.g. Chipotle)" style="padding:12px 14px;font-size:15px;border:1.5px solid var(--gray-border);border-radius:var(--radius-sm);background:var(--card-bg);color:var(--text);width:100%">
       <input type="text" id="custom-item" placeholder="Menu item (e.g. Chicken burrito bowl)" style="padding:12px 14px;font-size:15px;border:1.5px solid var(--gray-border);border-radius:var(--radius-sm);background:var(--card-bg);color:var(--text);width:100%">
       <select id="custom-slot" style="padding:12px 14px;font-size:15px;border:1.5px solid var(--gray-border);border-radius:var(--radius-sm);background:var(--card-bg);color:var(--text);width:100%">
-        <option value="Breakfast">Breakfast</option>
-        <option value="Lunch" selected>Lunch</option>
-        <option value="Snack">Snack</option>
-        <option value="Dinner">Dinner</option>
+        <option value="dinner" selected>Dinner (main meal)</option>
+        <option value="addon">Protein add-on</option>
       </select>
     </div>
     <button class="btn-full btn-primary" onclick="lookupCustomMeal()" id="custom-lookup-btn">Look up macros</button>
@@ -527,7 +525,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-
 <script>
 const START=260,GOAL=200,WATER_GOAL=100;
 const DAYS_OF_WEEK=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-const MEAL_SLOTS=['Breakfast','Lunch','Snack','Dinner'];
+const MEAL_SLOTS=['Dinner','Snack'];
 
 const phases=[
   {lbl:"Phase 1 · Weeks 1–4",sub:"Foundation"},
@@ -576,14 +574,23 @@ const dayPlans=[
 ];
 
 // ---- Meal database (loaded from meals.json) ----
-let baseMeals={"Breakfast":[],"Lunch":[],"Snack":[],"Dinner":[]};
-let meals={"Breakfast":[],"Lunch":[],"Snack":[],"Dinner":[]};
+let baseMeals={"Dinner":[],"Snack":[]};
+let meals={"Dinner":[],"Snack":[]};
 let groceryMap={};
 let mealsLoaded=false;
 let customMeals=[];
 let hiddenMeals=[];
 try{customMeals=JSON.parse(localStorage.getItem('custom_meals')||'[]');}catch(e){}
 try{hiddenMeals=JSON.parse(localStorage.getItem('hidden_meals')||'[]');}catch(e){}
+// Categories collapsed to Dinner + Snack — remap any custom meals on the old scheme
+(function migrateCategories(){
+  let changed=false;
+  customMeals.forEach(m=>{
+    if(m.category==='Breakfast'){m.category='Snack';changed=true;}
+    else if(m.category==='Lunch'){m.category='Dinner';changed=true;}
+  });
+  if(changed){try{localStorage.setItem('custom_meals',JSON.stringify(customMeals));}catch(e){}}
+})();
 
 function saveCustomMeals(){try{localStorage.setItem('custom_meals',JSON.stringify(customMeals));}catch(e){}}
 function saveHiddenMeals(){try{localStorage.setItem('hidden_meals',JSON.stringify(hiddenMeals));}catch(e){}}
@@ -774,9 +781,17 @@ const roadmap=[
 
 // State
 let currentPhase=0;
-let todayMeals={Breakfast:null,Lunch:null,Snack:null,Dinner:null};
+let todayPlate={dinner:null,addons:[]};
+function loadPlate(){
+  try{
+    const raw=localStorage.getItem('plate_'+todayKey());
+    if(raw){const p=JSON.parse(raw);todayPlate={dinner:p.dinner||null,addons:Array.isArray(p.addons)?p.addons:[]};}
+    else todayPlate={dinner:null,addons:[]};
+  }catch(e){todayPlate={dinner:null,addons:[]};}
+}
+function savePlate(){try{localStorage.setItem('plate_'+todayKey(),JSON.stringify(todayPlate));}catch(e){}}
 let activeCat='All';
-let weekPlan={};// {Monday:{Breakfast:mealObj,...},...}
+let weekPlan={};// {Monday:{dinner:mealObj,addons:[...]},...}
 let groceryChecked={};
 let pendingPlannerDay=null,pendingPlannerSlot=null;
 let currentRecipeQuery='';
@@ -785,6 +800,22 @@ function todayKey(){return new Date().toISOString().slice(0,10);}
 let waterOz=parseInt(localStorage.getItem('water_'+todayKey())||'0');
 let weightLog=[];try{weightLog=JSON.parse(localStorage.getItem('wlog')||'[]');}catch(e){}
 try{weekPlan=JSON.parse(localStorage.getItem('weekplan')||'{}');}catch(e){}
+// Migrate legacy 4-slot week plans into the dinner + add-ons shape
+(function migrateWeekPlan(){
+  let changed=false;
+  Object.keys(weekPlan).forEach(day=>{
+    const p=weekPlan[day];
+    if(!p||typeof p!=='object')return;
+    if('dinner' in p||'addons' in p){
+      if(!Array.isArray(p.addons)){p.addons=[];changed=true;}
+      return;
+    }
+    const next={dinner:p.Dinner||null,addons:[]};
+    ['Breakfast','Lunch','Snack'].forEach(s=>{if(p[s])next.addons.push(p[s]);}); // legacy 4-slot plans
+    weekPlan[day]=next;changed=true;
+  });
+  if(changed){try{localStorage.setItem('weekplan',JSON.stringify(weekPlan));}catch(e){}}
+})();
 try{groceryChecked=JSON.parse(localStorage.getItem('groc_checked')||'{}');}catch(e){}
 
 function saveWeekPlan(){try{localStorage.setItem('weekplan',JSON.stringify(weekPlan));}catch(e){}}
@@ -836,7 +867,7 @@ function toggleDone(phase,di,wi,val){
 
 // Meals
 function renderCatFilter(){
-  const cats=['All','Breakfast','Lunch','Snack','Dinner'];
+  const cats=['All','Dinner','Snack'];
   document.getElementById('cat-filter').innerHTML=cats.map(c=>`<button class="cat-btn${activeCat===c?' active':''}" onclick="setCat('${c}')">${c}</button>`).join('');
 }
 function setCat(c){activeCat=c;renderCatFilter();renderMealLibrary();}
@@ -850,7 +881,7 @@ function renderMealLibrary(){
     if(!meals[cat]||!meals[cat].length)return;
     let html=`<div class="sec-label">${cat}</div><div class="meal-grid">`;
     meals[cat].forEach((m,i)=>{
-      const sel=todayMeals[cat]&&todayMeals[cat].name===m.name?' selected':'';
+      const sel=isMealOnPlate(m.name)?' selected':'';
       html+=`<div class="meal-card${sel}" onclick="selectMeal('${cat}',${i})">
         <div class="meal-emoji">${m.emoji}</div>
         <div class="meal-name">${m.name}</div>
@@ -864,8 +895,12 @@ function renderMealLibrary(){
 }
 
 function selectMeal(cat,i){
-  todayMeals[cat]=meals[cat][i];
+  const m=meals[cat][i];
+  if(cat==='Dinner')todayPlate.dinner=m;
+  else todayPlate.addons.push(m);
+  savePlate();
   renderMealLibrary();
+  renderToday();
 }
 
 // Recipe modal
@@ -947,35 +982,72 @@ function renderWater(){
   document.getElementById('water-cups').innerHTML=h;
 }
 
-function removeMeal(slot){
-  todayMeals[slot]=null;
-  renderToday();
+function isMealOnPlate(name){
+  if(todayPlate.dinner&&todayPlate.dinner.name===name)return true;
+  return todayPlate.addons.some(a=>a.name===name);
+}
+function removeDinner(){
+  todayPlate.dinner=null;
+  savePlate();renderToday();renderMealLibrary();
+}
+function removeAddon(i){
+  todayPlate.addons.splice(i,1);
+  savePlate();renderToday();renderMealLibrary();
 }
 
 function renderToday(){
-  // Reload extra workouts for today in case date changed
+  loadPlate();
   try{extraWorkouts=JSON.parse(localStorage.getItem('extra_workouts_'+todayKey())||'[]');}catch(e){}
   document.getElementById('today-date').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   renderWater();
   renderExtraWorkouts();
-  let totalCal=0,totalPro=0,html='';
-  MEAL_SLOTS.forEach(slot=>{
-    const m=todayMeals[slot];
-    if(m){totalCal+=m.cal;totalPro+=m.pro;}
-    html+=`<div class="slot-row">
-      <span class="slot-lbl">${slot}</span>
-      <span class="slot-val ${m?'':'slot-empty'}">${m?m.name:'Tap + to add'}</span>
-      <div class="slot-right">
-        ${m?`<span class="slot-cal">${m.cal}</span><button class="remove-btn" onclick="removeMeal('${slot}')" aria-label="Remove ${slot}">✕</button>`:''}
-      </div>
-    </div>`;
-  });
-  document.getElementById('today-meals').innerHTML=html;
+
+  // Dinner
+  const d=todayPlate.dinner;
+  document.getElementById('today-dinner').innerHTML=d
+    ? `<div class="slot-row">
+         <span class="slot-val">${d.emoji?d.emoji+' ':''}${d.name}</span>
+         <div class="slot-right">
+           <span class="slot-cal">${d.cal} cal · ${d.pro}g P</span>
+           <button class="remove-btn" onclick="removeDinner()" aria-label="Remove dinner">✕</button>
+         </div>
+       </div>`
+    : `<div class="slot-row"><span class="slot-val slot-empty">No dinner logged yet</span></div>`;
+
+  // Add-ons
+  let addonHtml='';
+  if(!todayPlate.addons.length){
+    addonHtml=`<div class="slot-row"><span class="slot-val slot-empty">Shakes, cottage cheese, yogurt — anything to close the protein gap</span></div>`;
+  }else{
+    todayPlate.addons.forEach((a,i)=>{
+      addonHtml+=`<div class="slot-row">
+        <span class="slot-val">${a.emoji?a.emoji+' ':''}${a.name}</span>
+        <div class="slot-right">
+          <span class="slot-cal">${a.cal} cal · ${a.pro}g P</span>
+          <button class="remove-btn" onclick="removeAddon(${i})" aria-label="Remove add-on">✕</button>
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('today-addons').innerHTML=addonHtml;
+
+  // Totals
+  let totalCal=0,totalPro=0;
+  if(d){totalCal+=d.cal;totalPro+=d.pro;}
+  todayPlate.addons.forEach(a=>{totalCal+=a.cal;totalPro+=a.pro;});
   const totalBurn=extraWorkouts.reduce((s,w)=>s+w.cal,0);
   const netCal=totalCal-totalBurn;
   const calPct=Math.min(100,Math.round(totalCal/2100*100));
   const proPct=Math.min(100,Math.round(totalPro/170*100));
   const netPct=Math.min(100,Math.max(0,Math.round(netCal/2100*100)));
+  const calGap=2100-totalCal, proGap=170-totalPro;
+  let gapNote='';
+  if(totalCal>0&&(calGap>200||proGap>20)){
+    const bits=[];
+    if(calGap>200)bits.push(`${calGap} cal`);
+    if(proGap>20)bits.push(`${proGap}g protein`);
+    gapNote=`<div style="background:var(--blue-light);border-radius:var(--radius-sm);padding:12px;margin-top:12px;font-size:13px;color:var(--blue);line-height:1.5">Still ${bits.join(' and ')} short. Add protein add-ons to close the gap — undereating is the main risk on one meal a day.</div>`;
+  }
   document.getElementById('today-totals').innerHTML=`
     <div class="total-row"><span class="total-lbl">Calories eaten</span><span class="total-val">${totalCal} / 2,100</span></div>
     <div class="bar-wrap"><div class="bar-fill bar-green" style="width:${calPct}%"></div></div>
@@ -989,60 +1061,88 @@ function renderToday(){
     <div style="font-size:12px;color:var(--text-2);margin-bottom:14px">${netCal<2100?`${2100-netCal} cal remaining after burn`:'Over daily goal even after burn'}</div>`:''}
     <div class="total-row"><span class="total-lbl">Protein</span><span class="total-val" style="color:var(--blue)">${totalPro}g / 170g</span></div>
     <div class="bar-wrap"><div class="bar-fill bar-blue" style="width:${proPct}%"></div></div>
-    <div style="font-size:12px;color:var(--text-2)">${proPct}% of protein goal</div>`;
+    <div style="font-size:12px;color:var(--text-2)">${proPct}% of protein goal</div>
+    ${gapNote}`;
 }
+
 
 // Weekly Planner
 function renderPlanner(){
   const c=document.getElementById('planner-days');c.innerHTML='';
   DAYS_OF_WEEK.forEach(day=>{
-    if(!weekPlan[day])weekPlan[day]={};
+    if(!weekPlan[day]||!('dinner' in weekPlan[day]))weekPlan[day]={dinner:null,addons:[]};
+    const p=weekPlan[day];
+    if(!Array.isArray(p.addons))p.addons=[];
     let html=`<div class="planner-day"><div class="planner-day-name">${day}</div>`;
-    MEAL_SLOTS.forEach(slot=>{
-      const m=weekPlan[day][slot];
+    html+=`<div class="planner-slot">
+      <span class="planner-slot-lbl">Dinner</span>
+      <span class="planner-slot-val ${p.dinner?'':'planner-slot-empty'}">${p.dinner?p.dinner.emoji+' '+p.dinner.name:'Not planned'}</span>
+      ${p.dinner
+        ? `<button class="planner-remove-btn" onclick="removePlannerDinner('${day}')">✕</button>`
+        : `<button class="planner-add-btn" onclick="openPlannerModal('${day}','dinner')">+</button>`}
+    </div>`;
+    p.addons.forEach((a,idx)=>{
       html+=`<div class="planner-slot">
-        <span class="planner-slot-lbl">${slot}</span>
-        <span class="planner-slot-val ${m?'':'planner-slot-empty'}">${m?m.emoji+' '+m.name:'Not planned'}</span>
-        ${m
-          ? `<button class="planner-remove-btn" onclick="removePlannerMeal('${day}','${slot}')">✕</button>`
-          : `<button class="planner-add-btn" onclick="openPlannerModal('${day}','${slot}')">+</button>`
-        }
+        <span class="planner-slot-lbl">Add-on</span>
+        <span class="planner-slot-val">${a.emoji} ${a.name}</span>
+        <button class="planner-remove-btn" onclick="removePlannerAddon('${day}',${idx})">✕</button>
       </div>`;
     });
+    html+=`<div class="planner-slot">
+      <span class="planner-slot-lbl">Add-on</span>
+      <span class="planner-slot-val planner-slot-empty">Add a protein add-on</span>
+      <button class="planner-add-btn" onclick="openPlannerModal('${day}','addon')">+</button>
+    </div>`;
+    const cal=(p.dinner?p.dinner.cal:0)+p.addons.reduce((s,a)=>s+a.cal,0);
+    const pro=(p.dinner?p.dinner.pro:0)+p.addons.reduce((s,a)=>s+a.pro,0);
+    if(cal>0){
+      html+=`<div style="display:flex;justify-content:space-between;padding-top:10px;margin-top:6px;border-top:1px solid var(--gray-border);font-size:12px;color:var(--text-2)">
+        <span>Day total</span><span style="font-weight:600">${cal} cal · ${pro}g protein</span>
+      </div>`;
+    }
     html+=`</div>`;
     c.innerHTML+=html;
   });
 }
 
-function removePlannerMeal(day,slot){
-  if(weekPlan[day])delete weekPlan[day][slot];
-  saveWeekPlan();
-  renderPlanner();
+function removePlannerDinner(day){
+  if(weekPlan[day])weekPlan[day].dinner=null;
+  saveWeekPlan();renderPlanner();
+}
+function removePlannerAddon(day,idx){
+  if(weekPlan[day]&&Array.isArray(weekPlan[day].addons))weekPlan[day].addons.splice(idx,1);
+  saveWeekPlan();renderPlanner();
 }
 
-function openPlannerModal(day,slot){
+function openPlannerModal(day,mode){
   pendingPlannerDay=day;
-  pendingPlannerSlot=slot;
-  document.getElementById('planner-modal-title').textContent=`${day} — ${slot}`;
-  document.getElementById('planner-modal-sub').textContent='Choose a meal to add';
+  pendingPlannerSlot=mode;
+  const isDinner=mode==='dinner';
+  document.getElementById('planner-modal-title').textContent=`${day} — ${isDinner?'Dinner':'Protein add-on'}`;
+  document.getElementById('planner-modal-sub').textContent=isDinner?'Choose your main meal':'Choose something to close the protein gap';
   const list=document.getElementById('planner-meal-list');
+  const cats=isDinner?['Dinner']:['Snack'];
   let html='';
-  (meals[slot]||[]).forEach((m,i)=>{
-    html+=`<div class="planner-meal-option" onclick="selectPlannerMeal('${slot}',${i})">
-      <span class="planner-meal-emoji">${m.emoji}</span>
-      <div class="planner-meal-info">
-        <div class="planner-meal-name">${m.name}</div>
-        <div class="planner-meal-cal">${m.cal} cal · ${m.pro}g protein</div>
-      </div>
-    </div>`;
+  cats.forEach(cat=>{
+    (meals[cat]||[]).forEach((m,i)=>{
+      html+=`<div class="planner-meal-option" onclick="selectPlannerMeal('${cat}',${i})">
+        <span class="planner-meal-emoji">${m.emoji}</span>
+        <div class="planner-meal-info">
+          <div class="planner-meal-name">${m.name}</div>
+          <div class="planner-meal-cal">${m.cal} cal · ${m.pro}g protein</div>
+        </div>
+      </div>`;
+    });
   });
-  list.innerHTML=html;
+  list.innerHTML=html||'<div class="empty">No meals available.</div>';
   document.getElementById('planner-modal').classList.remove('hidden');
 }
 
-function selectPlannerMeal(slot,i){
-  if(!weekPlan[pendingPlannerDay])weekPlan[pendingPlannerDay]={};
-  weekPlan[pendingPlannerDay][slot]=meals[slot][i];
+function selectPlannerMeal(cat,i){
+  const m=meals[cat][i];
+  if(!weekPlan[pendingPlannerDay]||!('dinner' in weekPlan[pendingPlannerDay]))weekPlan[pendingPlannerDay]={dinner:null,addons:[]};
+  if(pendingPlannerSlot==='dinner')weekPlan[pendingPlannerDay].dinner=m;
+  else weekPlan[pendingPlannerDay].addons.push(m);
   saveWeekPlan();
   closePlannerModalBtn();
   renderPlanner();
@@ -1054,10 +1154,12 @@ function closePlannerModalBtn(){document.getElementById('planner-modal').classLi
 function showGrocery(){
   const combined={};
   DAYS_OF_WEEK.forEach(day=>{
-    if(!weekPlan[day])return;
-    MEAL_SLOTS.forEach(slot=>{
-      const m=weekPlan[day][slot];
-      if(!m)return;
+    const p=weekPlan[day];
+    if(!p)return;
+    const dayMeals=[];
+    if(p.dinner)dayMeals.push(p.dinner);
+    if(Array.isArray(p.addons))dayMeals.push(...p.addons);
+    dayMeals.forEach(m=>{
       const ingMap=groceryMap[m.name];
       if(!ingMap)return;
       Object.entries(ingMap).forEach(([cat,items])=>{
@@ -1291,7 +1393,10 @@ Use standard serving size. Be accurate based on known restaurant data or typical
 }
 
 function addCustomMealToToday(name,cal,pro,slot){
-  todayMeals[slot]={name,cal,pro,custom:true};
+  const entry={name,cal,pro,emoji:'🍽️',custom:true};
+  if(slot==='addon')todayPlate.addons.push(entry);
+  else todayPlate.dinner=entry;
+  savePlate();
   closeCustomMealModalBtn();
   renderToday();
   showTab('today');
@@ -1316,6 +1421,7 @@ function exportData(){
     if(k&&k.startsWith('water_'))data.water[k]=localStorage.getItem(k);
     if(k&&k.startsWith('done_p'))data.workouts[k]=localStorage.getItem(k);
     if(k&&k.startsWith('extra_workouts_'))data.water[k]=localStorage.getItem(k);
+    if(k&&k.startsWith('plate_'))data.water[k]=localStorage.getItem(k);
   }
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
@@ -1355,6 +1461,7 @@ function importData(event){
       if(data.workouts){Object.entries(data.workouts).forEach(([k,v])=>{try{localStorage.setItem(k,v);}catch(err){}});}
       // Reload water for today
       waterOz=parseInt(localStorage.getItem('water_'+todayKey())||'0');
+      loadPlate();
       // Re-render everything
       renderProgress();
       renderToday();

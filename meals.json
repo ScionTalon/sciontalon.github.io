@@ -1,73 +1,1109 @@
 {
-  "Breakfast": [
-    { "name": "Oats + protein powder + banana", "emoji": "🥣", "cal": 480, "pro": 35, "grocery": { "Pantry": ["Rolled oats", "Protein powder"], "Produce": ["Bananas"] } },
-    { "name": "Scrambled eggs + toast + avocado", "emoji": "🍳", "cal": 460, "pro": 28, "grocery": { "Proteins": ["Eggs"], "Pantry": ["Whole grain bread"], "Produce": ["Avocados"] } },
-    { "name": "Greek yogurt parfait + granola + berries", "emoji": "🫙", "cal": 380, "pro": 32, "grocery": { "Dairy": ["Greek yogurt", "Granola"], "Produce": ["Mixed berries"] } },
-    { "name": "Cottage cheese + peaches + honey", "emoji": "🍑", "cal": 310, "pro": 28, "grocery": { "Dairy": ["Cottage cheese"], "Produce": ["Peaches"], "Pantry": ["Honey"] } },
-    { "name": "Turkey & egg scramble wrap", "emoji": "🌯", "cal": 490, "pro": 38, "grocery": { "Proteins": ["Ground turkey", "Eggs"], "Pantry": ["Whole grain tortillas"] } },
-    { "name": "Overnight oats + chia + almond butter", "emoji": "🌙", "cal": 420, "pro": 25, "grocery": { "Pantry": ["Rolled oats", "Chia seeds", "Almond butter"] } },
-    { "name": "Protein pancakes + maple syrup", "emoji": "🥞", "cal": 440, "pro": 32, "grocery": { "Pantry": ["Protein pancake mix", "Maple syrup"] } },
-    { "name": "Veggie omelette + whole grain toast", "emoji": "🥚", "cal": 400, "pro": 30, "grocery": { "Proteins": ["Eggs"], "Produce": ["Bell peppers", "Spinach", "Onion"], "Pantry": ["Whole grain bread"] } },
-    { "name": "Smoothie bowl (protein + fruit + oats)", "emoji": "🍇", "cal": 450, "pro": 30, "grocery": { "Pantry": ["Protein powder", "Rolled oats"], "Produce": ["Frozen fruit mix", "Banana"] } },
-    { "name": "Breakfast burrito (eggs + turkey + peppers)", "emoji": "🌮", "cal": 510, "pro": 36, "grocery": { "Proteins": ["Eggs", "Ground turkey"], "Produce": ["Bell peppers"], "Pantry": ["Whole grain tortillas"] } }
-  ],
-  "Lunch": [
-    { "name": "Grilled chicken + brown rice + salad", "emoji": "🍗", "cal": 580, "pro": 50, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Brown rice"], "Produce": ["Mixed salad greens"] } },
-    { "name": "Tuna salad sandwich (whole grain)", "emoji": "🥪", "cal": 490, "pro": 42, "grocery": { "Proteins": ["Canned tuna"], "Pantry": ["Whole grain bread", "Mayonnaise (light)"], "Produce": ["Celery", "Lettuce"] } },
-    { "name": "Ground turkey rice bowl + roasted veggies", "emoji": "🥩", "cal": 560, "pro": 48, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Brown rice"], "Produce": ["Zucchini", "Bell peppers", "Broccoli"] } },
-    { "name": "Black bean & rice burrito bowl", "emoji": "🫘", "cal": 520, "pro": 24, "grocery": { "Pantry": ["Black beans (canned)", "Brown rice", "Salsa"], "Produce": ["Lime", "Cilantro"], "Dairy": ["Greek yogurt"] } },
-    { "name": "Baked salmon + sweet potato + green beans", "emoji": "🐟", "cal": 540, "pro": 44, "grocery": { "Proteins": ["Salmon fillets"], "Produce": ["Sweet potatoes", "Green beans"] } },
-    { "name": "Chicken Caesar wrap (light dressing)", "emoji": "🥗", "cal": 510, "pro": 42, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Whole grain tortillas", "Caesar dressing (light)"], "Produce": ["Romaine lettuce"] } },
-    { "name": "Turkey meatball sub (whole grain roll)", "emoji": "🫓", "cal": 550, "pro": 44, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Whole grain hoagie rolls", "Marinara sauce"] } },
-    { "name": "Shrimp stir-fry + brown rice", "emoji": "🍤", "cal": 490, "pro": 40, "grocery": { "Proteins": ["Shrimp"], "Pantry": ["Brown rice", "Soy sauce", "Sesame oil"], "Produce": ["Broccoli", "Snap peas", "Carrots"] } },
-    { "name": "Lentil & veggie soup + bread", "emoji": "🍲", "cal": 480, "pro": 26, "grocery": { "Pantry": ["Lentils", "Vegetable broth", "Whole grain bread"], "Produce": ["Carrots", "Celery", "Onion", "Garlic"] } },
-    { "name": "Chicken & veggie grain bowl (quinoa)", "emoji": "🫙", "cal": 560, "pro": 46, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Quinoa"], "Produce": ["Cucumber", "Cherry tomatoes", "Spinach"] } },
-    { "name": "BLT turkey wrap + apple", "emoji": "🥬", "cal": 500, "pro": 38, "grocery": { "Proteins": ["Deli turkey slices", "Turkey bacon"], "Pantry": ["Whole grain tortillas"], "Produce": ["Lettuce", "Tomato", "Apples"] } },
-    { "name": "Canned tuna + crackers + cucumber", "emoji": "🐟", "cal": 380, "pro": 38, "grocery": { "Proteins": ["Canned tuna"], "Pantry": ["Whole grain crackers"], "Produce": ["Cucumber"] } },
-    { "name": "Strawberry chicken salad (greens, walnuts, feta, balsamic)", "emoji": "🍓", "cal": 480, "pro": 42, "grocery": { "Proteins": ["Chicken breast"], "Produce": ["Mixed salad greens", "Strawberries", "Red onion"], "Dairy": ["Feta cheese"], "Pantry": ["Walnuts", "Balsamic vinaigrette"] } },
-    { "name": "Jennifer Aniston salad + grilled chicken", "emoji": "🥗", "cal": 595, "pro": 61, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Quinoa", "Chickpeas (canned)", "Pistachios", "Olive oil", "Honey"], "Produce": ["English cucumber", "Parsley", "Mint", "Red onion", "Lemons"], "Dairy": ["Feta cheese"] } },
-    { "name": "Grilled strawberry chicken salad (romaine, avocado, pecans, feta)", "emoji": "🍓", "cal": 560, "pro": 48, "grocery": { "Proteins": ["Chicken breast"], "Produce": ["Romaine hearts", "Strawberries", "English cucumber", "Avocado", "Red onion", "Shallot"], "Dairy": ["Feta cheese"], "Pantry": ["Pecans", "Balsamic vinegar", "Dijon mustard", "Honey", "Olive oil"] } }
+  "Dinner": [
+    {
+      "name": "Ground turkey stir-fry + broccoli + rice",
+      "emoji": "🥦",
+      "cal": 620,
+      "pro": 55,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Brown rice",
+          "Soy sauce"
+        ],
+        "Produce": [
+          "Broccoli",
+          "Bell peppers"
+        ]
+      }
+    },
+    {
+      "name": "Baked chicken thighs + roasted broccoli",
+      "emoji": "🍗",
+      "cal": 540,
+      "pro": 52,
+      "grocery": {
+        "Proteins": [
+          "Chicken thighs"
+        ],
+        "Produce": [
+          "Broccoli"
+        ]
+      }
+    },
+    {
+      "name": "Ground beef tacos (corn tortillas, salsa)",
+      "emoji": "🌮",
+      "cal": 650,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Ground beef (lean)"
+        ],
+        "Pantry": [
+          "Corn tortillas",
+          "Salsa",
+          "Taco seasoning"
+        ],
+        "Produce": [
+          "Lettuce",
+          "Tomato",
+          "Lime"
+        ]
+      }
+    },
+    {
+      "name": "Baked salmon + asparagus + quinoa",
+      "emoji": "🐟",
+      "cal": 560,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Salmon fillets"
+        ],
+        "Pantry": [
+          "Quinoa"
+        ],
+        "Produce": [
+          "Asparagus"
+        ]
+      }
+    },
+    {
+      "name": "Lentil soup + crusty bread",
+      "emoji": "🍲",
+      "cal": 520,
+      "pro": 28,
+      "grocery": {
+        "Pantry": [
+          "Lentils",
+          "Vegetable broth",
+          "Whole grain bread"
+        ],
+        "Produce": [
+          "Carrots",
+          "Celery",
+          "Onion",
+          "Garlic"
+        ]
+      }
+    },
+    {
+      "name": "Shrimp & veggie bowl (cauliflower rice)",
+      "emoji": "🍤",
+      "cal": 420,
+      "pro": 42,
+      "grocery": {
+        "Proteins": [
+          "Shrimp"
+        ],
+        "Produce": [
+          "Cauliflower rice (frozen)",
+          "Broccoli",
+          "Snap peas"
+        ],
+        "Pantry": [
+          "Soy sauce"
+        ]
+      }
+    },
+    {
+      "name": "Chicken & vegetable sheet pan bake",
+      "emoji": "🫑",
+      "cal": 510,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Produce": [
+          "Zucchini",
+          "Bell peppers",
+          "Onion",
+          "Cherry tomatoes"
+        ]
+      }
+    },
+    {
+      "name": "Turkey chili + brown rice",
+      "emoji": "🌶️",
+      "cal": 580,
+      "pro": 52,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Kidney beans (canned)",
+          "Diced tomatoes (canned)",
+          "Brown rice",
+          "Chili seasoning"
+        ],
+        "Produce": [
+          "Onion",
+          "Garlic",
+          "Bell peppers"
+        ]
+      }
+    },
+    {
+      "name": "Pork tenderloin + sweet potato + green beans",
+      "emoji": "🥩",
+      "cal": 550,
+      "pro": 46,
+      "grocery": {
+        "Proteins": [
+          "Pork tenderloin"
+        ],
+        "Produce": [
+          "Sweet potatoes",
+          "Green beans"
+        ]
+      }
+    },
+    {
+      "name": "Shrimp tacos (corn tortillas, slaw, avocado)",
+      "emoji": "🌮",
+      "cal": 540,
+      "pro": 36,
+      "grocery": {
+        "Proteins": [
+          "Shrimp"
+        ],
+        "Pantry": [
+          "Corn tortillas"
+        ],
+        "Produce": [
+          "Coleslaw mix",
+          "Avocado",
+          "Lime"
+        ]
+      }
+    },
+    {
+      "name": "Baked cod + brown rice + roasted zucchini",
+      "emoji": "🐟",
+      "cal": 490,
+      "pro": 46,
+      "grocery": {
+        "Proteins": [
+          "Cod fillets"
+        ],
+        "Pantry": [
+          "Brown rice"
+        ],
+        "Produce": [
+          "Zucchini"
+        ]
+      }
+    },
+    {
+      "name": "Chicken tikka masala (light) + basmati rice",
+      "emoji": "🍛",
+      "cal": 600,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Tikka masala sauce (jar)",
+          "Basmati rice"
+        ]
+      }
+    },
+    {
+      "name": "Beef & broccoli stir-fry + brown rice",
+      "emoji": "🥦",
+      "cal": 620,
+      "pro": 50,
+      "grocery": {
+        "Proteins": [
+          "Lean beef strips"
+        ],
+        "Pantry": [
+          "Brown rice",
+          "Soy sauce",
+          "Oyster sauce"
+        ],
+        "Produce": [
+          "Broccoli",
+          "Garlic",
+          "Ginger"
+        ]
+      }
+    },
+    {
+      "name": "Black bean & sweet potato enchiladas",
+      "emoji": "🫘",
+      "cal": 580,
+      "pro": 24,
+      "grocery": {
+        "Pantry": [
+          "Black beans (canned)",
+          "Corn tortillas",
+          "Enchilada sauce"
+        ],
+        "Produce": [
+          "Sweet potatoes",
+          "Onion"
+        ],
+        "Dairy": [
+          "Shredded cheese (low-fat)"
+        ]
+      }
+    },
+    {
+      "name": "Chicken burrito bowl (rice, beans, salsa, Greek yogurt)",
+      "emoji": "🌯",
+      "cal": 620,
+      "pro": 54,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Brown rice",
+          "Black beans (canned)",
+          "Salsa"
+        ],
+        "Dairy": [
+          "Greek yogurt"
+        ],
+        "Produce": [
+          "Lime",
+          "Cilantro"
+        ]
+      }
+    },
+    {
+      "name": "Ground turkey burrito (whole wheat tortilla, cheese, salsa)",
+      "emoji": "🌯",
+      "cal": 660,
+      "pro": 52,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Whole wheat tortillas",
+          "Salsa"
+        ],
+        "Dairy": [
+          "Shredded cheese (low-fat)"
+        ]
+      }
+    },
+    {
+      "name": "Steak tacos (corn tortillas, onion, cilantro, lime)",
+      "emoji": "🌮",
+      "cal": 580,
+      "pro": 46,
+      "grocery": {
+        "Proteins": [
+          "Lean steak (flank or sirloin)"
+        ],
+        "Pantry": [
+          "Corn tortillas",
+          "Taco seasoning"
+        ],
+        "Produce": [
+          "White onion",
+          "Cilantro",
+          "Limes"
+        ]
+      }
+    },
+    {
+      "name": "Chicken tacos (corn tortillas, slaw, hot sauce)",
+      "emoji": "🌮",
+      "cal": 520,
+      "pro": 46,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Corn tortillas",
+          "Hot sauce"
+        ],
+        "Produce": [
+          "Coleslaw mix",
+          "Lime"
+        ]
+      }
+    },
+    {
+      "name": "Air-fried hot wings (12) + celery + light ranch",
+      "emoji": "🍗",
+      "cal": 580,
+      "pro": 58,
+      "grocery": {
+        "Proteins": [
+          "Chicken wings"
+        ],
+        "Pantry": [
+          "Hot sauce",
+          "Butter",
+          "Light ranch dressing"
+        ],
+        "Produce": [
+          "Celery"
+        ]
+      }
+    },
+    {
+      "name": "Baked buffalo chicken + brown rice + broccoli",
+      "emoji": "🌶️",
+      "cal": 560,
+      "pro": 56,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Hot sauce",
+          "Brown rice"
+        ],
+        "Produce": [
+          "Broccoli"
+        ]
+      }
+    },
+    {
+      "name": "Turkey taco bowl (cauliflower rice, cheese, pico)",
+      "emoji": "🌮",
+      "cal": 510,
+      "pro": 50,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Taco seasoning"
+        ],
+        "Produce": [
+          "Cauliflower rice (frozen)",
+          "Tomato",
+          "Onion",
+          "Jalapeño",
+          "Cilantro",
+          "Lime"
+        ],
+        "Dairy": [
+          "Shredded cheese (low-fat)"
+        ]
+      }
+    },
+    {
+      "name": "Cheesy ground beef & rice skillet",
+      "emoji": "🧀",
+      "cal": 640,
+      "pro": 52,
+      "grocery": {
+        "Proteins": [
+          "Ground beef (lean)"
+        ],
+        "Pantry": [
+          "Brown rice",
+          "Beef broth",
+          "Diced tomatoes (canned)"
+        ],
+        "Dairy": [
+          "Shredded cheese (low-fat)"
+        ],
+        "Produce": [
+          "Onion",
+          "Garlic",
+          "Bell pepper"
+        ]
+      }
+    },
+    {
+      "name": "Grilled chicken + brown rice + salad",
+      "emoji": "🍗",
+      "cal": 580,
+      "pro": 50,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Brown rice"
+        ],
+        "Produce": [
+          "Mixed salad greens"
+        ]
+      }
+    },
+    {
+      "name": "Tuna salad sandwich (whole grain)",
+      "emoji": "🥪",
+      "cal": 490,
+      "pro": 42,
+      "grocery": {
+        "Proteins": [
+          "Canned tuna"
+        ],
+        "Pantry": [
+          "Whole grain bread",
+          "Mayonnaise (light)"
+        ],
+        "Produce": [
+          "Celery",
+          "Lettuce"
+        ]
+      }
+    },
+    {
+      "name": "Ground turkey rice bowl + roasted veggies",
+      "emoji": "🥩",
+      "cal": 560,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Brown rice"
+        ],
+        "Produce": [
+          "Zucchini",
+          "Bell peppers",
+          "Broccoli"
+        ]
+      }
+    },
+    {
+      "name": "Black bean & rice burrito bowl",
+      "emoji": "🫘",
+      "cal": 520,
+      "pro": 24,
+      "grocery": {
+        "Pantry": [
+          "Black beans (canned)",
+          "Brown rice",
+          "Salsa"
+        ],
+        "Produce": [
+          "Lime",
+          "Cilantro"
+        ],
+        "Dairy": [
+          "Greek yogurt"
+        ]
+      }
+    },
+    {
+      "name": "Baked salmon + sweet potato + green beans",
+      "emoji": "🐟",
+      "cal": 540,
+      "pro": 44,
+      "grocery": {
+        "Proteins": [
+          "Salmon fillets"
+        ],
+        "Produce": [
+          "Sweet potatoes",
+          "Green beans"
+        ]
+      }
+    },
+    {
+      "name": "Chicken Caesar wrap (light dressing)",
+      "emoji": "🥗",
+      "cal": 510,
+      "pro": 42,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Whole grain tortillas",
+          "Caesar dressing (light)"
+        ],
+        "Produce": [
+          "Romaine lettuce"
+        ]
+      }
+    },
+    {
+      "name": "Turkey meatball sub (whole grain roll)",
+      "emoji": "🫓",
+      "cal": 550,
+      "pro": 44,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey"
+        ],
+        "Pantry": [
+          "Whole grain hoagie rolls",
+          "Marinara sauce"
+        ]
+      }
+    },
+    {
+      "name": "Shrimp stir-fry + brown rice",
+      "emoji": "🍤",
+      "cal": 490,
+      "pro": 40,
+      "grocery": {
+        "Proteins": [
+          "Shrimp"
+        ],
+        "Pantry": [
+          "Brown rice",
+          "Soy sauce",
+          "Sesame oil"
+        ],
+        "Produce": [
+          "Broccoli",
+          "Snap peas",
+          "Carrots"
+        ]
+      }
+    },
+    {
+      "name": "Lentil & veggie soup + bread",
+      "emoji": "🍲",
+      "cal": 480,
+      "pro": 26,
+      "grocery": {
+        "Pantry": [
+          "Lentils",
+          "Vegetable broth",
+          "Whole grain bread"
+        ],
+        "Produce": [
+          "Carrots",
+          "Celery",
+          "Onion",
+          "Garlic"
+        ]
+      }
+    },
+    {
+      "name": "Chicken & veggie grain bowl (quinoa)",
+      "emoji": "🫙",
+      "cal": 560,
+      "pro": 46,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Quinoa"
+        ],
+        "Produce": [
+          "Cucumber",
+          "Cherry tomatoes",
+          "Spinach"
+        ]
+      }
+    },
+    {
+      "name": "BLT turkey wrap + apple",
+      "emoji": "🥬",
+      "cal": 500,
+      "pro": 38,
+      "grocery": {
+        "Proteins": [
+          "Deli turkey slices",
+          "Turkey bacon"
+        ],
+        "Pantry": [
+          "Whole grain tortillas"
+        ],
+        "Produce": [
+          "Lettuce",
+          "Tomato",
+          "Apples"
+        ]
+      }
+    },
+    {
+      "name": "Canned tuna + crackers + cucumber",
+      "emoji": "🐟",
+      "cal": 380,
+      "pro": 38,
+      "grocery": {
+        "Proteins": [
+          "Canned tuna"
+        ],
+        "Pantry": [
+          "Whole grain crackers"
+        ],
+        "Produce": [
+          "Cucumber"
+        ]
+      }
+    },
+    {
+      "name": "Strawberry chicken salad (greens, walnuts, feta, balsamic)",
+      "emoji": "🍓",
+      "cal": 480,
+      "pro": 42,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Produce": [
+          "Mixed salad greens",
+          "Strawberries",
+          "Red onion"
+        ],
+        "Dairy": [
+          "Feta cheese"
+        ],
+        "Pantry": [
+          "Walnuts",
+          "Balsamic vinaigrette"
+        ]
+      }
+    },
+    {
+      "name": "Jennifer Aniston salad + grilled chicken",
+      "emoji": "🥗",
+      "cal": 595,
+      "pro": 61,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Quinoa",
+          "Chickpeas (canned)",
+          "Pistachios",
+          "Olive oil",
+          "Honey"
+        ],
+        "Produce": [
+          "English cucumber",
+          "Parsley",
+          "Mint",
+          "Red onion",
+          "Lemons"
+        ],
+        "Dairy": [
+          "Feta cheese"
+        ]
+      }
+    },
+    {
+      "name": "Grilled strawberry chicken salad (romaine, avocado, pecans, feta)",
+      "emoji": "🍓",
+      "cal": 560,
+      "pro": 48,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Produce": [
+          "Romaine hearts",
+          "Strawberries",
+          "English cucumber",
+          "Avocado",
+          "Red onion",
+          "Shallot"
+        ],
+        "Dairy": [
+          "Feta cheese"
+        ],
+        "Pantry": [
+          "Pecans",
+          "Balsamic vinegar",
+          "Dijon mustard",
+          "Honey",
+          "Olive oil"
+        ]
+      }
+    }
   ],
   "Snack": [
-    { "name": "Cottage cheese + apple slices", "emoji": "🍎", "cal": 280, "pro": 25, "grocery": { "Dairy": ["Cottage cheese"], "Produce": ["Apples"] } },
-    { "name": "Greek yogurt + mixed berries", "emoji": "🍓", "cal": 240, "pro": 22, "grocery": { "Dairy": ["Greek yogurt"], "Produce": ["Mixed berries"] } },
-    { "name": "Hard-boiled eggs (2) + clementine", "emoji": "🥚", "cal": 220, "pro": 18, "grocery": { "Proteins": ["Eggs"], "Produce": ["Clementines"] } },
-    { "name": "Peanut butter + rice cakes (2)", "emoji": "🍞", "cal": 290, "pro": 10, "grocery": { "Pantry": ["Peanut butter", "Rice cakes"] } },
-    { "name": "Protein shake + banana", "emoji": "🍌", "cal": 300, "pro": 30, "grocery": { "Pantry": ["Protein powder"], "Produce": ["Bananas"] } },
-    { "name": "Canned tuna + whole grain crackers", "emoji": "🐟", "cal": 260, "pro": 30, "grocery": { "Proteins": ["Canned tuna"], "Pantry": ["Whole grain crackers"] } },
-    { "name": "String cheese (2) + grapes", "emoji": "🧀", "cal": 240, "pro": 16, "grocery": { "Dairy": ["String cheese"], "Produce": ["Grapes"] } },
-    { "name": "Almonds (1 oz) + dried apricots", "emoji": "🌰", "cal": 270, "pro": 8, "grocery": { "Pantry": ["Almonds", "Dried apricots"] } },
-    { "name": "Hummus + celery + bell pepper strips", "emoji": "🫛", "cal": 200, "pro": 8, "grocery": { "Pantry": ["Hummus"], "Produce": ["Celery", "Bell peppers"] } },
-    { "name": "Edamame (1 cup shelled)", "emoji": "🟢", "cal": 190, "pro": 18, "grocery": { "Proteins": ["Shelled edamame (frozen)"] } },
-    { "name": "Chocolate protein shake", "emoji": "🍫", "cal": 280, "pro": 28, "grocery": { "Pantry": ["Chocolate protein powder"], "Dairy": ["Milk or milk alternative"] } },
-    { "name": "Turkey + cheese roll-ups", "emoji": "🥩", "cal": 240, "pro": 26, "grocery": { "Proteins": ["Deli turkey slices"], "Dairy": ["Sliced cheese"] } },
-    { "name": "Air-fried buffalo cauliflower bites", "emoji": "🌶️", "cal": 180, "pro": 6, "grocery": { "Produce": ["Cauliflower"], "Pantry": ["Hot sauce", "Olive oil", "Garlic powder"] } },
-    { "name": "Mini chicken tacos (2 corn tortillas)", "emoji": "🌮", "cal": 300, "pro": 26, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Corn tortillas", "Taco seasoning", "Salsa"] } },
-    { "name": "Cheese quesadilla (small, whole wheat)", "emoji": "🧀", "cal": 320, "pro": 18, "grocery": { "Pantry": ["Whole wheat tortillas"], "Dairy": ["Shredded cheese (low-fat)"] } },
-    { "name": "Hot wing drumsticks (4 baked) + celery", "emoji": "🍗", "cal": 310, "pro": 32, "grocery": { "Proteins": ["Chicken drumsticks"], "Pantry": ["Hot sauce", "Garlic powder"], "Produce": ["Celery"] } }
-  ],
-  "Dinner": [
-    { "name": "Ground turkey stir-fry + broccoli + rice", "emoji": "🥦", "cal": 620, "pro": 55, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Brown rice", "Soy sauce"], "Produce": ["Broccoli", "Bell peppers"] } },
-    { "name": "Baked chicken thighs + roasted broccoli", "emoji": "🍗", "cal": 540, "pro": 52, "grocery": { "Proteins": ["Chicken thighs"], "Produce": ["Broccoli"] } },
-    { "name": "Ground beef tacos (corn tortillas, salsa)", "emoji": "🌮", "cal": 650, "pro": 48, "grocery": { "Proteins": ["Ground beef (lean)"], "Pantry": ["Corn tortillas", "Salsa", "Taco seasoning"], "Produce": ["Lettuce", "Tomato", "Lime"] } },
-    { "name": "Baked salmon + asparagus + quinoa", "emoji": "🐟", "cal": 560, "pro": 48, "grocery": { "Proteins": ["Salmon fillets"], "Pantry": ["Quinoa"], "Produce": ["Asparagus"] } },
-    { "name": "Lentil soup + crusty bread", "emoji": "🍲", "cal": 520, "pro": 28, "grocery": { "Pantry": ["Lentils", "Vegetable broth", "Whole grain bread"], "Produce": ["Carrots", "Celery", "Onion", "Garlic"] } },
-    { "name": "Shrimp & veggie bowl (cauliflower rice)", "emoji": "🍤", "cal": 420, "pro": 42, "grocery": { "Proteins": ["Shrimp"], "Produce": ["Cauliflower rice (frozen)", "Broccoli", "Snap peas"], "Pantry": ["Soy sauce"] } },
-    { "name": "Chicken & vegetable sheet pan bake", "emoji": "🫑", "cal": 510, "pro": 48, "grocery": { "Proteins": ["Chicken breast"], "Produce": ["Zucchini", "Bell peppers", "Onion", "Cherry tomatoes"] } },
-    { "name": "Turkey chili + brown rice", "emoji": "🌶️", "cal": 580, "pro": 52, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Kidney beans (canned)", "Diced tomatoes (canned)", "Brown rice", "Chili seasoning"], "Produce": ["Onion", "Garlic", "Bell peppers"] } },
-    { "name": "Pork tenderloin + sweet potato + green beans", "emoji": "🥩", "cal": 550, "pro": 46, "grocery": { "Proteins": ["Pork tenderloin"], "Produce": ["Sweet potatoes", "Green beans"] } },
-    { "name": "Shrimp tacos (corn tortillas, slaw, avocado)", "emoji": "🌮", "cal": 540, "pro": 36, "grocery": { "Proteins": ["Shrimp"], "Pantry": ["Corn tortillas"], "Produce": ["Coleslaw mix", "Avocado", "Lime"] } },
-    { "name": "Baked cod + brown rice + roasted zucchini", "emoji": "🐟", "cal": 490, "pro": 46, "grocery": { "Proteins": ["Cod fillets"], "Pantry": ["Brown rice"], "Produce": ["Zucchini"] } },
-    { "name": "Chicken tikka masala (light) + basmati rice", "emoji": "🍛", "cal": 600, "pro": 48, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Tikka masala sauce (jar)", "Basmati rice"] } },
-    { "name": "Beef & broccoli stir-fry + brown rice", "emoji": "🥦", "cal": 620, "pro": 50, "grocery": { "Proteins": ["Lean beef strips"], "Pantry": ["Brown rice", "Soy sauce", "Oyster sauce"], "Produce": ["Broccoli", "Garlic", "Ginger"] } },
-    { "name": "Black bean & sweet potato enchiladas", "emoji": "🫘", "cal": 580, "pro": 24, "grocery": { "Pantry": ["Black beans (canned)", "Corn tortillas", "Enchilada sauce"], "Produce": ["Sweet potatoes", "Onion"], "Dairy": ["Shredded cheese (low-fat)"] } },
-    { "name": "Chicken burrito bowl (rice, beans, salsa, Greek yogurt)", "emoji": "🌯", "cal": 620, "pro": 54, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Brown rice", "Black beans (canned)", "Salsa"], "Dairy": ["Greek yogurt"], "Produce": ["Lime", "Cilantro"] } },
-    { "name": "Ground turkey burrito (whole wheat tortilla, cheese, salsa)", "emoji": "🌯", "cal": 660, "pro": 52, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Whole wheat tortillas", "Salsa"], "Dairy": ["Shredded cheese (low-fat)"] } },
-    { "name": "Steak tacos (corn tortillas, onion, cilantro, lime)", "emoji": "🌮", "cal": 580, "pro": 46, "grocery": { "Proteins": ["Lean steak (flank or sirloin)"], "Pantry": ["Corn tortillas", "Taco seasoning"], "Produce": ["White onion", "Cilantro", "Limes"] } },
-    { "name": "Chicken tacos (corn tortillas, slaw, hot sauce)", "emoji": "🌮", "cal": 520, "pro": 46, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Corn tortillas", "Hot sauce"], "Produce": ["Coleslaw mix", "Lime"] } },
-    { "name": "Air-fried hot wings (12) + celery + light ranch", "emoji": "🍗", "cal": 580, "pro": 58, "grocery": { "Proteins": ["Chicken wings"], "Pantry": ["Hot sauce", "Butter", "Light ranch dressing"], "Produce": ["Celery"] } },
-    { "name": "Baked buffalo chicken + brown rice + broccoli", "emoji": "🌶️", "cal": 560, "pro": 56, "grocery": { "Proteins": ["Chicken breast"], "Pantry": ["Hot sauce", "Brown rice"], "Produce": ["Broccoli"] } },
-    { "name": "Turkey taco bowl (cauliflower rice, cheese, pico)", "emoji": "🌮", "cal": 510, "pro": 50, "grocery": { "Proteins": ["Ground turkey"], "Pantry": ["Taco seasoning"], "Produce": ["Cauliflower rice (frozen)", "Tomato", "Onion", "Jalapeño", "Cilantro", "Lime"], "Dairy": ["Shredded cheese (low-fat)"] } },
-    { "name": "Cheesy ground beef & rice skillet", "emoji": "🧀", "cal": 640, "pro": 52, "grocery": { "Proteins": ["Ground beef (lean)"], "Pantry": ["Brown rice", "Beef broth", "Diced tomatoes (canned)"], "Dairy": ["Shredded cheese (low-fat)"], "Produce": ["Onion", "Garlic", "Bell pepper"] } }
+    {
+      "name": "Oats + protein powder + banana",
+      "emoji": "🥣",
+      "cal": 480,
+      "pro": 35,
+      "grocery": {
+        "Pantry": [
+          "Rolled oats",
+          "Protein powder"
+        ],
+        "Produce": [
+          "Bananas"
+        ]
+      }
+    },
+    {
+      "name": "Scrambled eggs + toast + avocado",
+      "emoji": "🍳",
+      "cal": 460,
+      "pro": 28,
+      "grocery": {
+        "Proteins": [
+          "Eggs"
+        ],
+        "Pantry": [
+          "Whole grain bread"
+        ],
+        "Produce": [
+          "Avocados"
+        ]
+      }
+    },
+    {
+      "name": "Greek yogurt parfait + granola + berries",
+      "emoji": "🫙",
+      "cal": 380,
+      "pro": 32,
+      "grocery": {
+        "Dairy": [
+          "Greek yogurt",
+          "Granola"
+        ],
+        "Produce": [
+          "Mixed berries"
+        ]
+      }
+    },
+    {
+      "name": "Cottage cheese + peaches + honey",
+      "emoji": "🍑",
+      "cal": 310,
+      "pro": 28,
+      "grocery": {
+        "Dairy": [
+          "Cottage cheese"
+        ],
+        "Produce": [
+          "Peaches"
+        ],
+        "Pantry": [
+          "Honey"
+        ]
+      }
+    },
+    {
+      "name": "Turkey & egg scramble wrap",
+      "emoji": "🌯",
+      "cal": 490,
+      "pro": 38,
+      "grocery": {
+        "Proteins": [
+          "Ground turkey",
+          "Eggs"
+        ],
+        "Pantry": [
+          "Whole grain tortillas"
+        ]
+      }
+    },
+    {
+      "name": "Overnight oats + chia + almond butter",
+      "emoji": "🌙",
+      "cal": 420,
+      "pro": 25,
+      "grocery": {
+        "Pantry": [
+          "Rolled oats",
+          "Chia seeds",
+          "Almond butter"
+        ]
+      }
+    },
+    {
+      "name": "Protein pancakes + maple syrup",
+      "emoji": "🥞",
+      "cal": 440,
+      "pro": 32,
+      "grocery": {
+        "Pantry": [
+          "Protein pancake mix",
+          "Maple syrup"
+        ]
+      }
+    },
+    {
+      "name": "Veggie omelette + whole grain toast",
+      "emoji": "🥚",
+      "cal": 400,
+      "pro": 30,
+      "grocery": {
+        "Proteins": [
+          "Eggs"
+        ],
+        "Produce": [
+          "Bell peppers",
+          "Spinach",
+          "Onion"
+        ],
+        "Pantry": [
+          "Whole grain bread"
+        ]
+      }
+    },
+    {
+      "name": "Smoothie bowl (protein + fruit + oats)",
+      "emoji": "🍇",
+      "cal": 450,
+      "pro": 30,
+      "grocery": {
+        "Pantry": [
+          "Protein powder",
+          "Rolled oats"
+        ],
+        "Produce": [
+          "Frozen fruit mix",
+          "Banana"
+        ]
+      }
+    },
+    {
+      "name": "Breakfast burrito (eggs + turkey + peppers)",
+      "emoji": "🌮",
+      "cal": 510,
+      "pro": 36,
+      "grocery": {
+        "Proteins": [
+          "Eggs",
+          "Ground turkey"
+        ],
+        "Produce": [
+          "Bell peppers"
+        ],
+        "Pantry": [
+          "Whole grain tortillas"
+        ]
+      }
+    },
+    {
+      "name": "Cottage cheese + apple slices",
+      "emoji": "🍎",
+      "cal": 280,
+      "pro": 25,
+      "grocery": {
+        "Dairy": [
+          "Cottage cheese"
+        ],
+        "Produce": [
+          "Apples"
+        ]
+      }
+    },
+    {
+      "name": "Greek yogurt + mixed berries",
+      "emoji": "🍓",
+      "cal": 240,
+      "pro": 22,
+      "grocery": {
+        "Dairy": [
+          "Greek yogurt"
+        ],
+        "Produce": [
+          "Mixed berries"
+        ]
+      }
+    },
+    {
+      "name": "Hard-boiled eggs (2) + clementine",
+      "emoji": "🥚",
+      "cal": 220,
+      "pro": 18,
+      "grocery": {
+        "Proteins": [
+          "Eggs"
+        ],
+        "Produce": [
+          "Clementines"
+        ]
+      }
+    },
+    {
+      "name": "Peanut butter + rice cakes (2)",
+      "emoji": "🍞",
+      "cal": 290,
+      "pro": 10,
+      "grocery": {
+        "Pantry": [
+          "Peanut butter",
+          "Rice cakes"
+        ]
+      }
+    },
+    {
+      "name": "Protein shake + banana",
+      "emoji": "🍌",
+      "cal": 300,
+      "pro": 30,
+      "grocery": {
+        "Pantry": [
+          "Protein powder"
+        ],
+        "Produce": [
+          "Bananas"
+        ]
+      }
+    },
+    {
+      "name": "Canned tuna + whole grain crackers",
+      "emoji": "🐟",
+      "cal": 260,
+      "pro": 30,
+      "grocery": {
+        "Proteins": [
+          "Canned tuna"
+        ],
+        "Pantry": [
+          "Whole grain crackers"
+        ]
+      }
+    },
+    {
+      "name": "String cheese (2) + grapes",
+      "emoji": "🧀",
+      "cal": 240,
+      "pro": 16,
+      "grocery": {
+        "Dairy": [
+          "String cheese"
+        ],
+        "Produce": [
+          "Grapes"
+        ]
+      }
+    },
+    {
+      "name": "Almonds (1 oz) + dried apricots",
+      "emoji": "🌰",
+      "cal": 270,
+      "pro": 8,
+      "grocery": {
+        "Pantry": [
+          "Almonds",
+          "Dried apricots"
+        ]
+      }
+    },
+    {
+      "name": "Hummus + celery + bell pepper strips",
+      "emoji": "🫛",
+      "cal": 200,
+      "pro": 8,
+      "grocery": {
+        "Pantry": [
+          "Hummus"
+        ],
+        "Produce": [
+          "Celery",
+          "Bell peppers"
+        ]
+      }
+    },
+    {
+      "name": "Edamame (1 cup shelled)",
+      "emoji": "🟢",
+      "cal": 190,
+      "pro": 18,
+      "grocery": {
+        "Proteins": [
+          "Shelled edamame (frozen)"
+        ]
+      }
+    },
+    {
+      "name": "Chocolate protein shake",
+      "emoji": "🍫",
+      "cal": 280,
+      "pro": 28,
+      "grocery": {
+        "Pantry": [
+          "Chocolate protein powder"
+        ],
+        "Dairy": [
+          "Milk or milk alternative"
+        ]
+      }
+    },
+    {
+      "name": "Turkey + cheese roll-ups",
+      "emoji": "🥩",
+      "cal": 240,
+      "pro": 26,
+      "grocery": {
+        "Proteins": [
+          "Deli turkey slices"
+        ],
+        "Dairy": [
+          "Sliced cheese"
+        ]
+      }
+    },
+    {
+      "name": "Air-fried buffalo cauliflower bites",
+      "emoji": "🌶️",
+      "cal": 180,
+      "pro": 6,
+      "grocery": {
+        "Produce": [
+          "Cauliflower"
+        ],
+        "Pantry": [
+          "Hot sauce",
+          "Olive oil",
+          "Garlic powder"
+        ]
+      }
+    },
+    {
+      "name": "Mini chicken tacos (2 corn tortillas)",
+      "emoji": "🌮",
+      "cal": 300,
+      "pro": 26,
+      "grocery": {
+        "Proteins": [
+          "Chicken breast"
+        ],
+        "Pantry": [
+          "Corn tortillas",
+          "Taco seasoning",
+          "Salsa"
+        ]
+      }
+    },
+    {
+      "name": "Cheese quesadilla (small, whole wheat)",
+      "emoji": "🧀",
+      "cal": 320,
+      "pro": 18,
+      "grocery": {
+        "Pantry": [
+          "Whole wheat tortillas"
+        ],
+        "Dairy": [
+          "Shredded cheese (low-fat)"
+        ]
+      }
+    },
+    {
+      "name": "Hot wing drumsticks (4 baked) + celery",
+      "emoji": "🍗",
+      "cal": 310,
+      "pro": 32,
+      "grocery": {
+        "Proteins": [
+          "Chicken drumsticks"
+        ],
+        "Pantry": [
+          "Hot sauce",
+          "Garlic powder"
+        ],
+        "Produce": [
+          "Celery"
+        ]
+      }
+    }
   ]
 }
